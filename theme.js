@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function switchTheme() {
         const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        
+        document.body.classList.add('theme-transition');
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
 
-        // Fade effect
-        document.body.style.opacity = '0';
         setTimeout(() => {
-            document.body.style.opacity = '1';
+            document.body.classList.remove('theme-transition');
         }, 300);
     }
 

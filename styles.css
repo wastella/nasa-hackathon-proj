@@ -230,7 +230,29 @@ h2 {
     opacity: 0;
 }
 
-/* Fade effect for theme transition */
+#theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+    padding: 0 10px;
+}
+
+#theme-toggle .material-icons {
+    font-size: 24px;
+    line-height: 1;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+}
+
 body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-transition {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
