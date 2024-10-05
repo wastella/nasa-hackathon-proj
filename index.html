@@ -1,11 +1,26 @@
+<!DOCTYPE html>
 <html class="html">
     <head>
         <title>AgroEye</title>
+        <!-- Include D3.js library for data visualization -->
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <!-- Include Pico CSS for basic styling -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <!-- Include custom styles -->
         <link rel="stylesheet" href="styles.css">
-
+        <link rel="stylesheet" href="animations.css">
+        <!-- Include transitions script -->
+        <script src="transitions.js"></script>
+        <script>
+            document.body.classList.add('transitioning');
+            window.addEventListener('DOMContentLoaded', (event) => {
+                setTimeout(() => {
+                    document.body.classList.remove('transitioning');
+                }, 50);
+            });
+        </script>
     </head>
+    <!-- Navigation header -->
     <header>
         <nav>
             <ul>
@@ -19,40 +34,48 @@
           </nav>
     </header>
     <body>
-        <div class="hero-section">
-            <div class="hero-content">
-                <h1 class="main-heading">Connecting Farmers with Satellite Insights for Sustainable Agriculture</h1>
-                <p class="main-description">Empowering farmers with NASA's geospatial datasets and analytics to make informed decisions about water usage, predict crop yields, and mitigate environmental risks.</p>
-                <div class="try-now-container">
-                    <a href="llm.html" role="button" class="primary-button">Try Now</a>
+        <div class="page-transition">
+            <!-- Hero section with main content and NASA logo -->
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="main-heading">Connecting Farmers with Satellite Insights for Sustainable Agriculture</h1>
+                    <p class="main-description">Empowering farmers with NASA's geospatial datasets and analytics to make informed decisions about water usage, predict crop yields, and mitigate environmental risks.</p>
+                    <div class="try-now-container">
+                        <a href="llm.html" role="button" class="primary-button">Try Now</a>
+                    </div>
                 </div>
+                <img src="media/NASA Space Apps 2024 Challenge.jpg" alt="NASA Space Apps 2024 Challenge" class="nasa-logo">
             </div>
-            <img src="media/NASA Space Apps 2024 Challenge.jpg" alt="NASA Space Apps 2024 Challenge" class="nasa-logo">
+            <!-- Card container for feature highlights -->
+            <div class="card-container">
+            <!-- LLM Use Case card -->
+            <article class="card">
+                <div class="card-text">
+                    <h1>LLM Use Case</h1>
+                    <hr>
+                    <p>The Large Language Model part of our application uses Large Language Models to perform advanced analysis of specific user set data. Under the hood we are using the <a href="https://gemini.google.com/">Google Gemini</a> API. Because we use LLMs to perform the analysis, we are able to provide our findings in automatically generated human understandable text.</p>
+                </div>
+                <a href="llm.html" role="button" class="primary-button full-width">Try LLM Application</a>
+            </article>
+            <!-- Data Analysis and Visualization card -->
+            <article class="card">
+                <div class="card-text">
+                    <h1>Data Analysis and Visualization</h1>
+                    <hr>
+                    <p>The Data Analysis and Visualization part of our application is designed to provide the user an easy and interactive way to visualize the data using multiple different types of charts and graphs. We hope this will create an ease of use so that the users can focus on using the insights for their benefit.</p>
+                </div>
+            </article>
+            <!-- About Us card -->
+            <article class="card">
+                <div class="card-text">
+                    <h1>About Us</h1>
+                    <hr>
+                    <p>We are a team from Solon, Ohio (near Cleveland). Our team is comprised of two members, <a href="https://github.com/wastella">William Stella</a> and <a href="https://github.com/dbuldum4">Deniz Buldum</a>. We are sophmores in high school. Our interests include Computer Science, Math, STEM, Machine Learning, AI, and much more!</p>
+                </div>
+            </article>
+            </div>
+            <!-- Container for displaying results (if any) -->
+            <p id="result"></p>
         </div>
-        <div class="card-container">
-        <article class="card">
-            <div class="card-text">
-                <h1>LLM Use Case</h1>
-                <hr>
-                <p>The Large Language Model part of our application uses Large Language Models to perform advanced analysis of specific user set data. Under the hood we are using the <a href="https://gemini.google.com/">Google Gemini</a> API. Because we use LLMs to perform the analysis, we are able to provide our findings in automatically generated human understandable text.</p>
-            </div>
-            <a href="llm.html" role="button" class="primary-button full-width">Try LLM Application</a>
-        </article>
-        <article class="card">
-            <div class="card-text">
-                <h1>Data Analysis and Visualization</h1>
-                <hr>
-                <p>The Data Analysis and Visualization part of our application is designed to provide the user an easy and interactive way to visualize the data using multiple different types of charts and graphs. We hope this will create an ease of use so that the users can focus on using the insights for their benefit.</p>
-            </div>
-        </article>
-        <article class="card">
-            <div class="card-text">
-                <h1>About Us</h1>
-                <hr>
-                <p>We are a team from Solon, Ohio (near Cleveland). Our team is comprised of two members, <a href="https://github.com/wastella">William Stella</a> and <a href="https://github.com/dbuldum4">Deniz Buldum</a>. We are sophmores in high school. Our interests include Computer Science, Math, STEM, Machine Learning, AI, and much more!</p>
-            </div>
-        </article>
-        </div>
-        <p id="result"></p>
     </body>
 </html>

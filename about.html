@@ -1,12 +1,29 @@
 <!DOCTYPE html>
+<!-- AgroEye About Page -->
+<!-- This HTML document provides information about the AgroEye project and its team -->
+
 <html class="html">
     <head>
         <title>About AgroEye</title>
+        <!-- Include D3.js library for potential data visualization -->
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <!-- Include Pico CSS for basic styling -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <!-- Include custom styles -->
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="animations.css">
+        <script src="transitions.js"></script>
+        <script>
+            document.body.classList.add('transitioning');
+            window.addEventListener('DOMContentLoaded', (event) => {
+                setTimeout(() => {
+                    document.body.classList.remove('transitioning');
+                }, 50);
+            });
+        </script>
     </head>
     <body>
+        <!-- Navigation header -->
         <header>
             <nav>
                 <ul>
@@ -20,46 +37,52 @@
             </nav>
         </header>
         
-        <main class="container">
-            <h1>About AgroEye</h1>
-            
-            <section>
-                <h2>Our Mission</h2>
-                <p>AgroEye is dedicated to connecting farmers with satellite insights for sustainable agriculture. We empower farmers with NASA's geospatial datasets and analytics to make informed decisions about water usage, predict crop yields, and mitigate environmental risks.</p>
-            </section>
-            
-            <section>
-                <h2>Our Team</h2>
-                <p>We are a team from Solon, Ohio (near Cleveland). Our team is comprised of two members:</p>
-                <ul>
-                    <li><a href="https://github.com/wastella">William Stella</a></li>
-                    <li><a href="https://github.com/dbuldum4">Deniz Buldum</a></li>
-                </ul>
-                <p>We are sophomores in high school with a passion for Computer Science, Math, STEM, Machine Learning, AI, and much more!</p>
-            </section>
-            
-            <section>
-                <h2>The Project</h2>
-                <p>AgroEye was developed as part of the NASA Space Apps 2024 Challenge. Our project combines cutting-edge technology with NASA's extensive datasets to provide valuable insights for the agricultural sector.</p>
-                <h3>Key Features:</h3>
-                <ul>
-                    <li><strong>LLM Analysis:</strong> Utilizing Google Gemini API for advanced data analysis and human-readable insights.</li>
-                    <li><strong>Data Visualization:</strong> Interactive charts and graphs for easy understanding of complex agricultural data.</li>
-                    <li><strong>NASA Datasets:</strong> Leveraging geospatial data from NASA to provide accurate and timely information.</li>
-                </ul>
-            </section>
-            
-            <section>
-                <h2>Contact Us</h2>
-                <p>For more information or to get in touch with our team, please visit our GitHub profiles or reach out via email at [Your Contact Email].</p>
-            </section>
-        </main>
+        <!-- Main content area wrapped in page-transition div -->
+        <div class="page-transition">
+            <main class="container">
+                <h1>About AgroEye</h1>
+                
+                <!-- Mission statement section -->
+                <section>
+                    <h2>Our Mission</h2>
+                    <p>AgroEye is dedicated to connecting farmers with satellite insights for sustainable agriculture. We empower farmers with NASA's geospatial datasets and analytics to make informed decisions about water usage, predict crop yields, and mitigate environmental risks.</p>
+                </section>
+                
+                <!-- Team information section -->
+                <section>
+                    <h2>Our Team</h2>
+                    <p>We are a team from Solon, Ohio (near Cleveland). Our team is comprised of two members:</p>
+                    <ul>
+                        <li><a href="https://github.com/wastella">William Stella</a></li>
+                        <li><a href="https://github.com/dbuldum4">Deniz Buldum</a></li>
+                    </ul>
+                    <p>We are sophomores in high school with a passion for Computer Science, Math, STEM, Machine Learning, AI, and much more!</p>
+                </section>
+                
+                <!-- Project details section -->
+                <section>
+                    <h2>The Project</h2>
+                    <p>AgroEye was developed as part of the NASA Space Apps 2024 Challenge. Our project combines cutting-edge technology with NASA's extensive datasets to provide valuable insights for the agricultural sector.</p>
+                    <h3>Key Features:</h3>
+                    <ul>
+                        <li><strong>LLM Analysis:</strong> Utilizing Google Gemini API for advanced data analysis and human-readable insights.</li>
+                        <li><strong>Data Visualization:</strong> Interactive charts and graphs for easy understanding of complex agricultural data.</li>
+                        <li><strong>NASA Datasets:</strong> Leveraging geospatial data from NASA to provide accurate and timely information.</li>
+                    </ul>
+                </section>
+                
+                <!-- Contact information section -->
+                <section>
+                    <h2>Contact Us</h2>
+                    <p>For more information or to get in touch with our team, please visit our GitHub profiles or reach out via email at [Your Contact Email].</p>
+                </section>
+            </main>
+        </div>
+        <!-- Footer is commented out, can be uncommented and customized if needed -->
         <!--
-
         <footer>
             <p>&copy; 2024 AgroEye. All rights reserved.</p>
         </footer>
-        
         -->
     </body>
 </html>

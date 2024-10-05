@@ -1,0 +1,17 @@
+.page-transition {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.page-transition.visible {
+    opacity: 1;
+}
+
+body {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+body.transitioning {
+    opacity: 0;
+}
