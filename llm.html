@@ -47,12 +47,22 @@
                         <option>Precipitation</option>
                     </select>
                     
-                    <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude" aria-label="lat">
-                    <input type="text" id="llm-long" name="long" placeholder="Enter Longitude" aria-label="long">
-                    <input type="datetime-local" name="datetime_start" aria-label="datetime_start">
-                    <input type="datetime-local" name="datetime_end" aria-label="datetime_end">
-                    <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
-                    <input type="submit" value="Submit" id="llm-submit-btn"/>
+                    <label for="llm-lat">Latitude</label>
+                    <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude (e.g., 36.7783)" aria-label="lat">
+                    
+                    <label for="llm-long">Longitude</label>
+                    <input type="text" id="llm-long" name="long" placeholder="Enter Longitude (e.g., -119.4179)" aria-label="long">
+                    
+                    <label for="datetime_start">Start Date</label>
+                    <input type="datetime-local" id="datetime_start" name="datetime_start" aria-label="datetime_start">
+                    
+                    <label for="datetime_end">End Date</label>
+                    <input type="datetime-local" id="datetime_end" name="datetime_end" aria-label="datetime_end">
+                    
+                    <label for="llm-textarea">Prompt for Gemini</label>
+                    <textarea id="llm-textarea" name="prompt" placeholder="E.g.: Analyze the temperature trends for this location over the specified time period. How might these affect crop growth?" aria-label="Prompt for Gemini"></textarea>
+                    
+                    <input type="submit" value="Analyze" id="llm-submit-btn"/>
                 </form>
                 <p id="result"></p>
                 <div id="d3-container"></div>
