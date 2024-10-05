@@ -28,3 +28,24 @@ body {
 article {
     border-radius: 5%;
 }
+
+#llm-form {
+    padding: 20px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.primary-button {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-inverse);
+}
+
+.primary-button:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
