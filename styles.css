@@ -102,9 +102,10 @@ article {
 
 .hero-section {
     display: flex;
-    align-items: stretch;  /* Changed to stretch to allow full height alignment */
+    align-items: stretch;
     justify-content: space-between;
-    margin: 2rem 5%;
+    margin: 2rem 5% 4rem 5%;  /* Kept top margin at 2rem, increased bottom margin to 4rem */
+    padding-bottom: 2rem;  /* Added padding to the bottom only */
 }
 
 .hero-content {
@@ -122,6 +123,26 @@ article {
     margin-left: 2rem;
     object-fit: contain;
     align-self: flex-start;  /* Aligns the image to the top */
+}
+
+/* Adjust spacing for h1 and h2 */
+h1 {
+    margin-bottom: 2rem;  /* Increased bottom margin for h1 */
+}
+
+h2 {
+    margin-top: 2rem;     /* Added top margin for h2 */
+    margin-bottom: 1rem;  /* Kept some bottom margin for consistency */
+}
+
+/* Specific styles for the About page */
+.container h1 {
+    margin-bottom: 2.5rem;  /* Even more space below the main heading on the About page */
+}
+
+.container h3 {
+    margin-top: 2rem;      /* Added top margin for h3 on the About page */
+    margin-bottom: 1rem;   /* Kept some bottom margin for consistency */
 }
 
 /* Add a media query for responsiveness */
