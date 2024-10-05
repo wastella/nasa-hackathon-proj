@@ -230,7 +230,11 @@ h2 {
     opacity: 0;
 }
 
-/* Fade effect for theme transition */
+
 body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-transition {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
