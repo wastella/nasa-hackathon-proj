@@ -1,6 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html class="html">
     <head>
-        <title>AgroEye</title>
+        <title>AgroEye - LLM</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
         <link rel="stylesheet" href="styles.css">
@@ -13,51 +14,51 @@
                   document.body.classList.remove('transitioning');
               }, 50);
           });
-      </script>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        </script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     </head>
-    <header>
-        <nav>
-            <ul>
-              <li><a href="index.html" class="contrast"><strong>AgroEye</strong></a></li>
-            </ul>
-            <ul>
-              <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
-              <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
-              <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
-              <li>
-                <button id="theme-toggle" class="contrast">
-                    <span class="material-icons">light_mode</span>
-                    <span class="material-icons">dark_mode</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-    </header>
     <body>
-      <div class="page-transition">
-      <form id="llm-form">
-        <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
-        <select name="llm_select_datatype" id="llm_select_datatype" aria-label="Select your data type..." required>
-          <option selected disabled value="">
-            Select your data type...
-          </option>
-          <option>Temperature</option>
-          <option>Precipitation</option>
-        </select>
-        
-        <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude" aria-label="lat">
-        <input type="text" id="llm-long" name="long" placeholder="Enter Longitude" aria-label="long">
-        <input type="datetime-local" name="datetime_start" aria-label="datetime_start">
-        <input type="datetime-local" name="datetime_end" aria-label="datetime_end">
-        <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
-        <input type="submit" value="Submit" id="llm-submit-btn"/>
-     </form>
-     <p id="result"></p>
-      <div id="d3-container">
+        <header>
+            <nav>
+                <ul>
+                  <li><a href="index.html" class="contrast"><strong>AgroEye</strong></a></li>
+                </ul>
+                <ul>
+                  <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
+                  <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
+                  <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
+                  <li>
+                    <button id="theme-toggle" class="contrast">
+                        <span class="material-icons">light_mode</span>
+                        <span class="material-icons">dark_mode</span>
+                    </button>
+                  </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="page-transition">
+            <main class="container">
+                <form id="llm-form">
+                    <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
+                    <select name="llm_select_datatype" id="llm_select_datatype" aria-label="Select your data type..." required>
+                        <option selected disabled value="">Select your data type...</option>
+                        <option>Temperature</option>
+                        <option>Precipitation</option>
+                    </select>
+                    
+                    <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude" aria-label="lat">
+                    <input type="text" id="llm-long" name="long" placeholder="Enter Longitude" aria-label="long">
+                    <input type="datetime-local" name="datetime_start" aria-label="datetime_start">
+                    <input type="datetime-local" name="datetime_end" aria-label="datetime_end">
+                    <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
+                    <input type="submit" value="Submit" id="llm-submit-btn"/>
+                </form>
+                <p id="result"></p>
+                <div id="d3-container"></div>
+            </main>
         </div>
-      </div>
-      <script src="llm.js"></script>
-      <script src="theme.js"></script>
+        <script src="llm.js"></script>
+        <script src="theme.js"></script>
     </body>
 </html>
