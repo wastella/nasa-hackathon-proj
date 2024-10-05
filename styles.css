@@ -1,0 +1,30 @@
+header {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.card-container {
+    display: flex;
+    gap: 5%;
+    justify-content: space-around;
+    margin: 5%;
+}
+
+.card {
+    flex: 1 1 0;
+    width: 0px;
+    text-align: center;
+
+}
+
+.card-text {
+    vertical-align: middle;
+}
+
+body {
+    overflow: "hidden";
+}
+
+article {
+    border-radius: 5%;
+}

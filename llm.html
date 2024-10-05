@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Farmer's Friend</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+    <header>
+        <nav>
+            <ul>
+              <li><a href="index.html" class="contrast"><strong>Farmers Friend</strong></a></li>
+            </ul>
+            <ul>
+              <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
+              <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
+              <li><a href="#" class="contrast"><strong>About</strong></a></li>
+            </ul>
+          </nav>
+    </header>
+    <body>
+      <form id="llm-form">
+        <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
+        <input type="submit" value="Submit" id="llm-submit-btn"/>
+     </form>
+     <p id="result"></p>
+      <div id="d3-container">
+
+      </div>
+    <script src="llm.js"></script>
+        
+  </body>
+</html>
