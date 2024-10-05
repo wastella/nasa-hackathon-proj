@@ -38,12 +38,14 @@
       <div class="page-transition">
       <form id="llm-form">
         <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
-        <select name="llm_select_datatype" id="llm_select_datatype" aria-label="Select your data type..." required>
-          <option selected disabled value="">
-            Select your data type...
-          </option>
-          <option>Temperature</option>
-          <option>Precipitation</option>
+        <select id="llm_select_datatype" name="llm_select_datatype" multiple>
+          <option value="Temperature">Temperature</option>
+          <option value="Precipitation">Precipitation</option>
+          <option value="Wind Speed Close to the Ground">Wind Speed Close to the Ground</option>
+          <option value="Wind Speed High Up">Wind Speed High Up</option>
+          <option value="Humidity">Humidity</option>
+          <option value="Cloud Cover">Cloud Cover</option>
+          <option value="UV Index">UV Index</option>
         </select>
         
         <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude" aria-label="lat">
