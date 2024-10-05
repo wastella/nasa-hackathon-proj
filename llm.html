@@ -20,6 +20,19 @@
     </header>
     <body>
       <form id="llm-form">
+        <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
+        <select name="llm_select_datatype" id="llm_select_datatype" aria-label="Select your data type..." required>
+          <option selected disabled value="">
+            Select your data type...
+          </option>
+          <option>Temperature</option>
+          <option>Precipitation</option>
+        </select>
+        
+        <input type="text" id="llm-lat" name="lat" placeholder="Enter Latitude" aria-label="lat">
+        <input type="text" id="llm-long" name="long" placeholder="Enter Longitude" aria-label="long">
+        <input type="datetime-local" name="datetime_start" aria-label="datetime_start">
+        <input type="datetime-local" name="datetime_end" aria-label="datetime_end">
         <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
         <input type="submit" value="Submit" id="llm-submit-btn"/>
      </form>
