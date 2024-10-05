@@ -1,8 +1,10 @@
+/* Header styles */
 header {
     margin-right: 5%;
     margin-left: 5%;
 }
 
+/* Card container styles */
 .card-container {
     display: flex;
     gap: 5%;
@@ -10,35 +12,41 @@ header {
     margin: 5%;
 }
 
+/* Individual card styles */
 .card {
     flex: 1 1 0;
     width: 0px;
     text-align: center;
-
 }
 
+/* Card text alignment */
 .card-text {
     vertical-align: middle;
 }
 
+/* Body overflow control */
 body {
     overflow: "hidden";
 }
 
+/* Article border radius */
 article {
     border-radius: 5%;
 }
 
+/* LLM form padding */
 #llm-form {
     padding: 20px;
 }
 
+/* Button container styles */
 .button-container {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
+/* Primary button styles */
 .primary-button {
     display: inline-block;
     background-color: var(--primary);
@@ -50,6 +58,7 @@ article {
     border-radius: 5px;
 }
 
+/* Primary button hover effects */
 .primary-button:hover {
     background-color: var(--primary-hover);
     border-color: var(--primary-hover);
@@ -57,26 +66,31 @@ article {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Card button margin */
 .card a[role="button"] {
     margin-top: 1rem;
 }
 
+/* Full-width button in cards */
 .card .primary-button.full-width {
     width: 100%;
     display: block;
 }
 
+/* Card primary button colors */
 .card .primary-button {
     background-color: var(--primary);
     border-color: var(--primary);
     color: var(--primary-inverse);
 }
 
+/* Card primary button hover colors */
 .card .primary-button:hover {
     background-color: var(--primary-hover);
     border-color: var(--primary-hover);
 }
 
+/* Main heading styles */
 .main-heading {
     text-align: left;
     color: white;
@@ -87,6 +101,7 @@ article {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Main description styles */
 .main-description {
     text-align: left;
     color: color-mix(in srgb, white 80%, var(--primary));
@@ -96,25 +111,30 @@ article {
     font-weight: 400;
 }
 
+/* Try now container positioning */
 .try-now-container {
-    margin-top: auto;  /* This pushes the button to the bottom of hero-content */
+    margin-top: auto;  /* Pushes the button to the bottom of hero-content */
 }
 
+/* Hero section layout */
 .hero-section {
     display: flex;
-    align-items: stretch;  /* Changed to stretch to allow full height alignment */
+    align-items: stretch;
     justify-content: space-between;
-    margin: 2rem 5%;
+    margin: 2rem 5% 4rem 5%;  /* Top margin 2rem, bottom margin 4rem */
+    padding-bottom: 2rem;  /* Added padding to the bottom only */
 }
 
+/* Hero content styles */
 .hero-content {
     flex: 1;
     max-width: 60%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;  /* This will push the button to the bottom */
+    justify-content: space-between;  /* Pushes the button to the bottom */
 }
 
+/* NASA logo styles */
 .nasa-logo {
     width: 35%;
     height: auto;
@@ -124,8 +144,29 @@ article {
     align-self: flex-start;  /* Aligns the image to the top */
 }
 
-/* Add a media query for responsiveness */
+/* Heading margin adjustments */
+h1 {
+    margin-bottom: 2rem;  /* Increased bottom margin for h1 */
+}
+
+h2 {
+    margin-top: 2rem;     /* Added top margin for h2 */
+    margin-bottom: 1rem;  /* Kept some bottom margin for consistency */
+}
+
+/* Specific styles for the About page */
+.container h1 {
+    margin-bottom: 2.5rem;  /* More space below the main heading on the About page */
+}
+
+.container h3 {
+    margin-top: 2rem;      /* Added top margin for h3 on the About page */
+    margin-bottom: 1rem;   /* Kept some bottom margin for consistency */
+}
+
+/* Media query for responsiveness */
 @media (max-width: 768px) {
+    /* Adjustments for smaller screens */
     .hero-section {
         flex-direction: column;
         align-items: center;
@@ -146,4 +187,3 @@ article {
         margin-top: 2rem;
     }
 }
-

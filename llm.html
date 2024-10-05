@@ -4,7 +4,16 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
         <link rel="stylesheet" href="styles.css">
-
+        <link rel="stylesheet" href="animations.css">
+        <script src="transitions.js"></script>
+        <script>
+          document.body.classList.add('transitioning');
+          window.addEventListener('DOMContentLoaded', (event) => {
+              setTimeout(() => {
+                  document.body.classList.remove('transitioning');
+              }, 50);
+          });
+      </script>
     </head>
     <header>
         <nav>
@@ -14,20 +23,21 @@
             <ul>
               <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
               <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
-              <li><a href="#" class="contrast"><strong>About</strong></a></li>
+              <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
             </ul>
           </nav>
     </header>
     <body>
-      <form id="llm-form">
-        <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
-        <input type="submit" value="Submit" id="llm-submit-btn"/>
-     </form>
-     <p id="result"></p>
-      <div id="d3-container">
+      <div class="page-transition">
+        <form id="llm-form">
+          <textarea id="llm-textarea" name="prompt" placeholder="Write a prompt for Gemini ..." aria-label="Professional short bio"></textarea>
+          <input type="submit" value="Submit" id="llm-submit-btn"/>
+        </form>
+        <p id="result"></p>
+        <div id="d3-container">
 
+        </div>
       </div>
-    <script src="llm.js"></script>
-        
-  </body>
+      <script src="llm.js"></script>
+    </body>
 </html>
