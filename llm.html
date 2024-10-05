@@ -4,7 +4,17 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
         <link rel="stylesheet" href="styles.css">
-
+        <link rel="stylesheet" href="animations.css">
+        <script src="transitions.js"></script>
+        <script>
+          document.body.classList.add('transitioning');
+          window.addEventListener('DOMContentLoaded', (event) => {
+              setTimeout(() => {
+                  document.body.classList.remove('transitioning');
+              }, 50);
+          });
+      </script>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <header>
         <nav>
@@ -14,11 +24,18 @@
             <ul>
               <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
               <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
-              <li><a href="#" class="contrast"><strong>About</strong></a></li>
+              <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
+              <li>
+                <button id="theme-toggle" class="contrast">
+                    <span class="material-icons">light_mode</span>
+                    <span class="material-icons">dark_mode</span>
+                </button>
+              </li>
             </ul>
           </nav>
     </header>
     <body>
+      <div class="page-transition">
       <form id="llm-form">
         <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
         <select name="llm_select_datatype" id="llm_select_datatype" aria-label="Select your data type..." required>
@@ -38,9 +55,16 @@
      </form>
      <p id="result"></p>
       <div id="d3-container">
-
+        </div>
       </div>
+<<<<<<< HEAD
     <script src="llm.js"></script>
         
   </body>
 </html>
+=======
+      <script src="llm.js"></script>
+      <script src="theme.js"></script>
+    </body>
+</html>
+>>>>>>> 81e2f12fc2d743c523918ebdfa2bc3199cc27c9c
