@@ -21,6 +21,7 @@
                 }, 50);
             });
         </script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         <!-- Navigation header -->
@@ -33,6 +34,10 @@
                     <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
                     <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
                     <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
+                    <li><button id="theme-toggle" class="contrast">
+                        <span class="material-icons">light_mode</span>
+                        <span class="material-icons">dark_mode</span>
+                    </button></li>
                 </ul>
             </nav>
         </header>
@@ -46,6 +51,7 @@
                 <section>
                     <h2>Our Mission</h2>
                     <p>AgroEye is dedicated to connecting farmers with satellite insights for sustainable agriculture. We empower farmers with NASA's geospatial datasets and analytics to make informed decisions about water usage, predict crop yields, and mitigate environmental risks.</p>
+                    <p>AgroEye was made to compete in the challenge <a href="https://www.spaceappschallenge.org/nasa-space-apps-2024/challenges/leveraging-earth-observation-data-for-informed-agricultural-decision-making/"><em>Leveraging Earth Observation Data for Informed Agricultural Decision-Making</em></a> in the <a href="https://www.spaceappschallenge.org/"><em>2024 NASA Space Apps Challenge</em></a>.</p>
                 </section>
                 
                 <!-- Team information section -->
@@ -71,10 +77,10 @@
                     </ul>
                 </section>
                 
-                <!-- Contact information section -->
+                <!-- Links section -->
                 <section>
-                    <h2>Contact Us</h2>
-                    <p>For more information or to get in touch with our team, please visit our GitHub profiles or reach out via email at [Your Contact Email].</p>
+                    <h2>View our Code</h2>
+                    <p>This project is open-source and can be found on GitHub <a href="https://github.com/wastella/nasa-hackathon-proj">here</a>.</p>
                 </section>
             </main>
         </div>
@@ -84,5 +90,6 @@
             <p>&copy; 2024 AgroEye. All rights reserved.</p>
         </footer>
         -->
+    <script src="theme.js"></script>
     </body>
 </html>

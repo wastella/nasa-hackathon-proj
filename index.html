@@ -19,6 +19,7 @@
                 }, 50);
             });
         </script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <!-- Navigation header -->
     <header>
@@ -30,6 +31,12 @@
               <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
               <li><a href="#" class="contrast"><strong>Data Viewer</strong></a></li>
               <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
+              <li>
+                <button id="theme-toggle" class="contrast">
+                    <span class="material-icons">light_mode</span>
+                    <span class="material-icons">dark_mode</span>
+                </button>
+              </li>       
             </ul>
           </nav>
     </header>
@@ -76,6 +83,7 @@
             </div>
             <!-- Container for displaying results (if any) -->
             <p id="result"></p>
+        <script src="theme.js"></script>
         </div>
     </body>
 </html>
