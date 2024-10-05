@@ -40,12 +40,110 @@ article {
 }
 
 .primary-button {
+    display: inline-block;
     background-color: var(--primary);
     border-color: var(--primary);
     color: var(--primary-inverse);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
 }
 
 .primary-button:hover {
     background-color: var(--primary-hover);
     border-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.card a[role="button"] {
+    margin-top: 1rem;
+}
+
+.card .primary-button.full-width {
+    width: 100%;
+    display: block;
+}
+
+.card .primary-button {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-inverse);
+}
+
+.card .primary-button:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.main-heading {
+    text-align: left;
+    color: white;
+    font-size: 2.2rem;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.main-description {
+    text-align: left;
+    color: color-mix(in srgb, white 80%, var(--primary));
+    font-size: 1.2rem;
+    margin: 0 0 2rem 0;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.try-now-container {
+    margin-top: auto;  /* This pushes the button to the bottom of hero-content */
+}
+
+.hero-section {
+    display: flex;
+    align-items: stretch;  /* Changed to stretch to allow full height alignment */
+    justify-content: space-between;
+    margin: 2rem 5%;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* This will push the button to the bottom */
+}
+
+.nasa-logo {
+    width: 35%;
+    height: auto;
+    border-radius: 15px;
+    margin-left: 2rem;
+    object-fit: contain;
+    align-self: flex-start;  /* Aligns the image to the top */
+}
+
+/* Add a media query for responsiveness */
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .nasa-logo {
+        width: 80%;
+        margin-left: 0;
+        margin-top: 2rem;
+    }
+
+    .try-now-container {
+        margin-top: 2rem;
+    }
+}
+
