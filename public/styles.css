@@ -22,6 +22,9 @@ header {
     border-radius: 8px; /* Rounded corners */
     padding: 20px; /* Add some padding */
     transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card:hover {
@@ -31,7 +34,9 @@ header {
 
 /* Card text alignment */
 .card-text {
-    vertical-align: middle;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Body overflow control */
@@ -78,7 +83,8 @@ article {
 
 /* Card button margin */
 .card a[role="button"] {
-    margin-top: 1rem;
+    margin-top: auto;
+    align-self: stretch;
 }
 
 /* Full-width button in cards */
@@ -360,3 +366,4 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+
