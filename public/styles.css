@@ -17,15 +17,16 @@ header {
     flex: 1 1 0;
     width: 0px;
     text-align: center;
-    border: 1px solid #e0e0e0; /* Light grey border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 0.5px solid #c0c0c0; /* Thinner, slightly darker border */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); /* Subtle shadow for depth */
     border-radius: 8px; /* Rounded corners */
     padding: 20px; /* Add some padding */
-    transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18); /* Slightly stronger shadow on hover */
+    border-color: #a0a0a0; /* Darker border on hover */
 }
 
 /* Card text alignment */
