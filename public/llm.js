@@ -46,7 +46,7 @@ function hideLoadingAnimation() {
 
 async function recommendDataType(prompt) {
   if (!prompt.trim()) {
-    datatypeLabel.textContent = "Reccomended: ";
+    datatypeLabel.textContent = "Recomended: ";
     return;
   }
 
@@ -97,7 +97,7 @@ async function recommendDataType(prompt) {
 
   } catch (error) {
     console.error('Error:', error);
-    datatypeLabel.textContent = "Recommended:";
+    datatypeLabel.textContent = "Recomended:";
   }
 }
 
