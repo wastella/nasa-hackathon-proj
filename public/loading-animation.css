@@ -1,0 +1,30 @@
+.loading-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  height: 40px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 8px;
+  background-color: var(--primary);
+  animation: loading 1.5s infinite ease-in-out;
+}
+
+@keyframes loading {
+  0% {
+    transform: scaleX(0.1);
+  }
+  50% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0.1);
+  }
+}
+
+[data-theme="dark"] .loading-spinner {
+  background-color: var(--primary-inverse);
+}

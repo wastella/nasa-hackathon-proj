@@ -33,6 +33,17 @@ let originalData = "";
 let originalPrompt = "";
 let previousAnalysis = "";
 
+// Add these functions at the beginning of the file
+function showLoadingAnimation() {
+  document.getElementById('loading-progress').style.display = 'block';
+  document.querySelector('.results-container').style.display = 'none';
+}
+
+function hideLoadingAnimation() {
+  document.getElementById('loading-progress').style.display = 'none';
+  document.querySelector('.results-container').style.display = 'block';
+}
+
 async function recommendDataType(prompt) {
   if (!prompt.trim()) {
     datatypeLabel.textContent = "Select your data type...";
@@ -463,6 +474,8 @@ async function fetchDataFromUrl(url) {
 async function getFormText(event) {
   event.preventDefault();
 
+  showLoadingAnimation();
+
   const d3cont = document.getElementById("d3-container");
   d3cont.innerHTML = "";
   document.getElementById("result").innerText = "";
@@ -597,6 +610,8 @@ async function getFormText(event) {
     document.getElementById("result").innerText = "An error occurred: " + error.message;
     // Show the results container even if there's an error
     document.querySelector('.results-container').style.display = 'block';
+  } finally {
+    hideLoadingAnimation();
   }
 }
 // Function to parse CSV data for multiple datasets
@@ -655,28 +670,34 @@ function addMessageToChat(sender, message) {
 }
 
 async function getAIResponse(userMessage) {
-  const fullPrompt = `Original Data:\n${originalData}\n\nOriginal Prompt:\n${originalPrompt}\n\nPrevious Analysis:\n${previousAnalysis}\n\nNew User Message:\n${userMessage}\n\nPlease provide a response to the user's new message, taking into account the original data, prompt, and previous analysis. Use only new lines for formatting, no other special formatting (no bold, italics, or asterisks). Provide a conclusive answer if possible.`;
+  showLoadingAnimation();
 
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      contents: [{
-        parts: [{
-          text: fullPrompt
+  try {
+    const fullPrompt = `Original Data:\n${originalData}\n\nOriginal Prompt:\n${originalPrompt}\n\nPrevious Analysis:\n${previousAnalysis}\n\nNew User Message:\n${userMessage}\n\nPlease provide a response to the user's new message, taking into account the original data, prompt, and previous analysis. Use only new lines for formatting, no other special formatting (no bold, italics, or asterisks). Provide a conclusive answer if possible.`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: fullPrompt
+          }]
         }]
-      }]
-    })
-  });
+      })
+    });
 
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const result = await response.json();
+    return result.candidates[0].content.parts[0].text;
+  } finally {
+    hideLoadingAnimation();
   }
-
-  const result = await response.json();
-  return result.candidates[0].content.parts[0].text;
 }
 
 // Make sure to use async/await when adding the event listener
