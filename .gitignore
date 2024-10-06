@@ -4,3 +4,4 @@ package.json
 .vercel
 .env
 .env*.local
+.aider*
