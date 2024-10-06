@@ -129,73 +129,112 @@ article {
 /* Hero section layout */
 .hero-section {
     display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    margin: 2rem 5% 4rem 5%;  /* Top margin 2rem, bottom margin 4rem */
-    padding-bottom: 2rem;  /* Added padding to the bottom only */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 5% 4rem 5%;
+    padding-bottom: 2rem;
 }
 
 /* Hero content styles */
 .hero-content {
-    flex: 1;
-    max-width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;  /* Pushes the button to the bottom */
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 /* NASA logo styles */
 .nasa-logo {
-    width: 35%;
+    width: 100%;
+    max-width: 400px;
     height: auto;
     border-radius: 15px;
-    margin-left: 2rem;
     object-fit: contain;
-    align-self: flex-start;  /* Aligns the image to the top */
 }
 
 /* Heading margin adjustments */
 h1 {
-    margin-bottom: 2rem;  /* Increased bottom margin for h1 */
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
 }
 
 h2 {
-    margin-top: 2rem;     /* Added top margin for h2 */
-    margin-bottom: 1rem;  /* Kept some bottom margin for consistency */
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
 }
 
 /* Specific styles for the About page */
 .container h1 {
-    margin-bottom: 2.5rem;  /* More space below the main heading on the About page */
+    margin-bottom: 2rem;
 }
 
 .container h3 {
-    margin-top: 2rem;      /* Added top margin for h3 on the About page */
-    margin-bottom: 1rem;   /* Kept some bottom margin for consistency */
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+/* Card container styles */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+/* Individual card styles */
+.card {
+    flex: 1 1 300px;
+    max-width: 100%;
 }
 
 /* Media query for responsiveness */
-@media (max-width: 768px) {
-    /* Adjustments for smaller screens */
+@media (min-width: 768px) {
     .hero-section {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
     }
 
     .hero-content {
-        max-width: 100%;
-        margin-bottom: 2rem;
+        text-align: left;
+        margin-right: 2rem;
     }
 
     .nasa-logo {
-        width: 80%;
-        margin-left: 0;
-        margin-top: 2rem;
+        width: 35%;
+        margin-left: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .card-container {
+        flex-direction: column;
     }
 
-    .try-now-container {
-        margin-top: 2rem;
+    .card {
+        width: 100%;
     }
+}
+
+/* Responsive font sizes */
+.main-heading {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+}
+
+.main-description {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+}
+
+/* Responsive padding and margins */
+body {
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.container {
+    padding: clamp(1rem, 3vw, 2rem);
 }
 /* Theme toggle button styles */
 #theme-toggle {
