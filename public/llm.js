@@ -97,7 +97,7 @@ async function recommendDataType(prompt) {
 
   } catch (error) {
     console.error('Error:', error);
-    datatypeLabel.textContent = "Not Enough Information To Reccomend";
+    datatypeLabel.textContent = "Reccomended:";
   }
 }
 
