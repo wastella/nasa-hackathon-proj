@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use(cors());
 app.use(express.json());  // for parsing application/json
@@ -32,6 +32,7 @@ app.post('/api/fetch-data', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+// Remove or comment out the app.listen() call
+
+// Add this line at the end of the file
+module.exports = app;

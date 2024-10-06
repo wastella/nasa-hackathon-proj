@@ -39,42 +39,52 @@
         </header>
         <div class="page-transition">
             <main class="container">
-                <form id="llm-form">
-                    <label for="prompt">Enter your prompt:</label>
-                    <textarea id="llm-textarea" name="prompt" rows="4" cols="50" required placeholder="Example: Analyze the temperature and precipitation data for the specified time period and location. Provide insights on how these weather conditions might affect crop growth and suggest any necessary adjustments to farming practices."></textarea>
+                <div class="form-container">
+                    <form id="llm-form">
+                        <label for="prompt">Enter your prompt:</label>
+                        <textarea id="llm-textarea" name="prompt" rows="4" cols="50" required placeholder="Example: Analyze the temperature and precipitation data for the specified time period and location. Provide insights on how these weather conditions might affect crop growth and suggest any necessary adjustments to farming practices."></textarea>
 
-                    <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
-                    <select id="llm_select_datatype" name="llm_select_datatype" multiple required>
-                        <option value="Temperature">Temperature</option>
-                        <option value="Precipitation">Precipitation</option>
-                        <option value="Wind Speed Close to the Ground">Wind Speed Close to the Ground</option>
-                        <option value="Wind Speed High Up">Wind Speed High Up</option>
-                        <option value="Humidity">Humidity</option>
-                        <option value="Cloud Cover">Cloud Cover</option>
-                        <option value="UV Index">UV Index</option>
-                    </select>
+                        <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
+                        <select id="llm_select_datatype" name="llm_select_datatype" multiple required>
+                            <option value="Temperature">Temperature</option>
+                            <option value="Precipitation">Precipitation</option>
+                            <option value="Wind Speed Close to the Ground">Wind Speed Close to the Ground</option>
+                            <option value="Wind Speed High Up">Wind Speed High Up</option>
+                            <option value="Humidity">Humidity</option>
+                            <option value="Cloud Cover">Cloud Cover</option>
+                            <option value="UV Index">UV Index</option>
+                        </select>
 
-                    <label for="datetime_start">Start Date and Time:</label>
-                    <input type="datetime-local" id="datetime_start" name="datetime_start" required>
+                        <label for="datetime_start">Start Date and Time:</label>
+                        <input type="datetime-local" id="datetime_start" name="datetime_start" required>
 
-                    <label for="datetime_end">End Date and Time:</label>
-                    <input type="datetime-local" id="datetime_end" name="datetime_end" required>
+                        <label for="datetime_end">End Date and Time:</label>
+                        <input type="datetime-local" id="datetime_end" name="datetime_end" required>
 
-                    <label for="lat">Latitude:</label>
-                    <input type="number" id="lat" name="lat" step="any" required>
+                        <label for="lat">Latitude:</label>
+                        <input type="number" id="lat" name="lat" step="any" required>
 
-                    <label for="long">Longitude:</label>
-                    <input type="number" id="long" name="long" step="any" required>
+                        <label for="long">Longitude:</label>
+                        <input type="number" id="long" name="long" step="any" required>
 
-                    <input type="submit" value="Analyze">
-                </form>
-                <div id="d3-container"></div>
-                <p id="result"></p>
-                <button id="respond-button" style="display: none;">Respond to AI</button>
-                <div id="chat-container" style="display: none;">
-                    <div id="chat-messages"></div>
-                    <textarea id="user-message" rows="4" cols="50"></textarea>
-                    <button id="send-message">Send</button>
+                        <input type="submit" value="Analyze">
+                    </form>
+                </div>
+                
+                <div class="results-container" style="display: none;">
+                    <div class="analysis-container">
+                        <h2>Analysis</h2>
+                        <p id="result"></p>
+                    </div>
+                    <div class="graph-container">
+                        <div id="d3-container"></div>
+                    </div>
+                    <button id="respond-button" style="display: none;">Respond to AI</button>
+                    <div id="chat-container" style="display: none;">
+                        <div id="chat-messages"></div>
+                        <textarea id="user-message" rows="4" cols="50"></textarea>
+                        <button id="send-message">Send</button>
+                    </div>
                 </div>
             </main>
         </div>

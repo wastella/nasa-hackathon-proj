@@ -117,308 +117,336 @@ function buildURL(date_start, date_end, lat, long, data_types) {
   return `${baseUrl}/${dataTypeParams}/${location}/csv?model=mix`;
 }
 
-function renderLineGraph(chart_name, datasets, x_ax_name, y_ax_name) {
-  // Error checking
-  if (!Array.isArray(datasets) || datasets.length === 0) {
-    console.error("Invalid or empty datasets provided to renderLineGraph");
-    return;
-  }
+function formatTooltipContent(d, dataType) {
+  const dateFormatter = d3.timeFormat("%Y-%m-%d %H:%M:%S");
+  return `<strong>${dataType}</strong><br>
+          <strong>Date:</strong> ${dateFormatter(d.x)}<br>
+          <strong>Value:</strong> ${d.y.toFixed(2)}`;
+}
 
-  // Filter out any undefined or empty datasets
-  const validDatasets = datasets.filter(dataset => Array.isArray(dataset) && dataset.length > 0);
+function renderLineGraph(chart_name, datasets, x_ax_name, y_ax_name, dataTypes) {
+  // Clear existing content
+  const container = d3.select("#d3-container");
+  container.html("");
 
-  if (validDatasets.length === 0) {
-    console.error("No valid datasets to render");
-    return;
-  }
+  // Set dimensions based on the container's size
+  const containerRect = container.node().getBoundingClientRect();
+  const width = containerRect.width;
+  const height = Math.min(containerRect.height, 500); // Cap the height at 500px
 
+  const margin = { top: 50, right: 150, bottom: 60, left: 60 };
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+
+  // Create SVG
+  const svg = container.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Set up scales
+  const x = d3.scaleTime().range([0, innerWidth]);
+  const y = d3.scaleLinear().range([innerHeight, 0]);
+
+  // Create color scale
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  // Set domains
+  const allData = datasets.flat();
+  x.domain(d3.extent(allData, d => d.x));
+  y.domain([d3.min(allData, d => d.y), d3.max(allData, d => d.y)]);
+
+  // Create line generator
+  const line = d3.line()
+    .x(d => x(d.x))
+    .y(d => y(d.y));
+
+  // Create tooltip
+  const tooltip = createTooltip();
+
+  // Add lines and points for each dataset
+  datasets.forEach((data, i) => {
+    g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", color(i))
+      .attr("stroke-width", 1.5)
+      .attr("d", line);
+
+    g.selectAll(`.dot-${i}`)
+      .data(data)
+      .enter().append("circle")
+      .attr("class", `dot-${i}`)
+      .attr("cx", d => x(d.x))
+      .attr("cy", d => y(d.y))
+      .attr("r", 3)
+      .attr("fill", color(i))
+      .on("mouseover", (event, d) => {
+        tooltip.transition().duration(200).style("opacity", .9);
+        tooltip.html(formatTooltipContent(d, dataTypes[i]))
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.transition().duration(500).style("opacity", 0);
+      });
+  });
+
+  // Add x-axis
+  g.append("g")
+    .attr("transform", `translate(0,${innerHeight})`)
+    .call(d3.axisBottom(x))
+    .append("text")
+    .attr("x", innerWidth / 2)
+    .attr("y", margin.bottom - 10)
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
+    .text(x_ax_name);
+
+  // Add y-axis
+  g.append("g")
+    .call(d3.axisLeft(y))
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left + 10)
+    .attr("x", -innerHeight / 2)
+    .attr("dy", "0.71em")
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
+    .text(y_ax_name);
+
+  // Add chart title
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", margin.top / 2)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text(chart_name);
+
+  // Add legend
+  const legend = svg.append("g")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 10)
+    .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(dataTypes)
+    .enter().append("g")
+    .attr("transform", (d, i) => `translate(${width - margin.right + 10},${i * 20 + margin.top})`);
+
+  legend.append("rect")
+    .attr("x", 0)
+    .attr("width", 19)
+    .attr("height", 19)
+    .attr("fill", (d, i) => color(i));
+
+  legend.append("text")
+    .attr("x", -5)
+    .attr("y", 9.5)
+    .attr("dy", "0.32em")
+    .text(d => d);
+}
+
+function renderHistogram(chart_name, data, x_ax_name, y_ax_name) {
   // Clear existing content
   const container = d3.select("#d3-container");
   container.html("");
 
   // Create SVG with increased size
   const svg = container.append("svg")
-      .attr("width", 700)
-      .attr("height", 500);
+    .attr("width", 700)
+    .attr("height", 500);
 
   const margin = { top: 40, right: 40, bottom: 60, left: 60 };
   const width = +svg.attr("width") - margin.left - margin.right;
   const height = +svg.attr("height") - margin.top - margin.bottom;
 
   const g = svg.append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Extract only the y values
+  const values = data.map(d => d.y);
 
   // Set up scales
-  const x = d3.scaleTime()
-      .range([0, width])
-      .domain(d3.extent(validDatasets.flat(), d => d.x));
+  const x = d3.scaleLinear()
+    .range([0, width])
+    .domain([d3.min(values), d3.max(values)]);
 
+  // Create histogram generator
+  const histogram = d3.histogram()
+    .domain(x.domain())
+    .thresholds(x.ticks(20));
+
+  // Generate bins
+  const bins = histogram(values);
+
+  // Set up y scale
   const y = d3.scaleLinear()
-      .range([height, 0])
-      .domain([
-        d3.min(validDatasets.flat(), d => d.y),
-        d3.max(validDatasets.flat(), d => d.y)
-      ]);
+    .range([height, 0])
+    .domain([0, d3.max(bins, d => d.length)]);
 
-  // Create line generator
-  const line = d3.line()
-      .x(d => x(d.x))
-      .y(d => y(d.y));
-
-  // Color scale for multiple datasets
-  const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-  // Add lines for each dataset
-  validDatasets.forEach((data, i) => {
-    g.append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", color(i))
-        .attr("stroke-width", 1.5)
-        .attr("d", line);
-
-    // Add data points
-    g.selectAll(`.dot-${i}`)
-        .data(data)
-        .enter().append("circle")
-        .attr("class", `dot-${i}`)
-        .attr("cx", d => x(d.x))
-        .attr("cy", d => y(d.y))
-        .attr("r", 3)
-        .attr("fill", color(i));
-  });
+  // Create bars
+  g.selectAll(".bar")
+    .data(bins)
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.x0) + 1)
+    .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+    .attr("y", d => y(d.length))
+    .attr("height", d => height - y(d.length))
+    .attr("fill", "steelblue");
 
   // Add x-axis
   g.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x))
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", margin.bottom - 10)
-      .attr("fill", "white")
-      .attr("text-anchor", "middle")
-      .style("font-size", "14px")
-      .text(x_ax_name);
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x))
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", margin.bottom - 10)
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .text(x_ax_name);
 
   // Add y-axis
   g.append("g")
-      .call(d3.axisLeft(y))
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", -margin.left + 10)
-      .attr("x", -height / 2)
-      .attr("dy", "0.71em")
-      .attr("fill", "white")
-      .attr("text-anchor", "middle")
-      .style("font-size", "14px")
-      .text(y_ax_name);
+    .call(d3.axisLeft(y))
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left + 10)
+    .attr("x", -height / 2)
+    .attr("dy", "0.71em")
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .text(y_ax_name);
 
   // Add chart title
   svg.append("text")
-      .attr("x", width / 2 + margin.left)
-      .attr("y", margin.top / 2)
-      .attr("text-anchor", "middle")
-      .style("font-size", "18px")
-      .text(chart_name);
-
-  // Add legend
-  const legend = svg.append("g")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
-      .attr("text-anchor", "end")
-      .selectAll("g")
-      .data(validDatasets.map((_, i) => color(i)))
-      .enter().append("g")
-      .attr("transform", (d, i) => `translate(0,${i * 20})`);
-
-  legend.append("rect")
-      .attr("x", width - 19)
-      .attr("width", 19)
-      .attr("height", 19)
-      .attr("fill", d => d);
-
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9.5)
-      .attr("dy", "0.32em")
-      .text((d, i) => `Dataset ${i + 1}`);
-}
-
-function renderHistogram(chart_name, data, x_ax_name, y_ax_name) {
-    // Clear existing content
-    const container = d3.select("#d3-container");
-    container.html("");
-
-    // Create SVG with increased size
-    const svg = container.append("svg")
-        .attr("width", 700)
-        .attr("height", 500);
-
-    const margin = { top: 40, right: 40, bottom: 60, left: 60 };
-    const width = +svg.attr("width") - margin.left - margin.right;
-    const height = +svg.attr("height") - margin.top - margin.bottom;
-
-    const g = svg.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // Extract only the y values
-    const values = data.map(d => d.y);
-
-    // Set up scales
-    const x = d3.scaleLinear()
-        .range([0, width])
-        .domain([d3.min(values), d3.max(values)]);
-
-    // Create histogram generator
-    const histogram = d3.histogram()
-        .domain(x.domain())
-        .thresholds(x.ticks(20));
-
-    // Generate bins
-    const bins = histogram(values);
-
-    // Set up y scale
-    const y = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, d3.max(bins, d => d.length)]);
-
-    // Create bars
-    g.selectAll(".bar")
-        .data(bins)
-        .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", d => x(d.x0) + 1)
-        .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
-        .attr("y", d => y(d.length))
-        .attr("height", d => height - y(d.length))
-        .attr("fill", "steelblue");
-
-    // Add x-axis
-    g.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", margin.bottom - 10)
-        .attr("fill", "black")
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text(x_ax_name);
-
-    // Add y-axis
-    g.append("g")
-        .call(d3.axisLeft(y))
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 10)
-        .attr("x", -height / 2)
-        .attr("dy", "0.71em")
-        .attr("fill", "black")
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text(y_ax_name);
-
-    // Add chart title
-    svg.append("text")
-        .attr("x", width / 2 + margin.left)
-        .attr("y", margin.top / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")
-        .text(chart_name);
+    .attr("x", width / 2 + margin.left)
+    .attr("y", margin.top / 2)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text(chart_name);
 }
 
 function renderScatterPlot(chart_name, data, x_ax_name, y_ax_name) {
-    // Clear existing content
-    const container = d3.select("#d3-container");
-    container.html("");
+  // Clear existing content
+  const container = d3.select("#d3-container");
+  container.html("");
 
-    // Create SVG with increased size
-    const svg = container.append("svg")
-        .attr("width", 700)  // Increased width
-        .attr("height", 500);  // Increased height
+  // Create SVG with increased size
+  const svg = container.append("svg")
+    .attr("width", 700)  // Increased width
+    .attr("height", 500);  // Increased height
 
-    const margin = { top: 40, right: 40, bottom: 60, left: 60 };  // Increased margins
-    const width = +svg.attr("width") - margin.left - margin.right;
-    const height = +svg.attr("height") - margin.top - margin.bottom;
+  const margin = { top: 40, right: 40, bottom: 60, left: 60 };  // Increased margins
+  const width = +svg.attr("width") - margin.left - margin.right;
+  const height = +svg.attr("height") - margin.top - margin.bottom;
 
-    const g = svg.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+  const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Set up scales
-    const x = d3.scaleTime()
-        .range([0, width])
-        .domain(d3.extent(data, d => d.x));
+  // Set up scales
+  const x = d3.scaleTime()
+    .range([0, width])
+    .domain(d3.extent(data, d => d.x));
 
-    const y = d3.scaleLinear()
-        .range([height, 0])
-        .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)]);
+  const y = d3.scaleLinear()
+    .range([height, 0])
+    .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)]);
 
-    // Add scatter points
-    g.selectAll(".dot")
-        .data(data)
-        .enter().append("circle")
-        .attr("class", "dot")
-        .attr("cx", d => x(d.x))
-        .attr("cy", d => y(d.y))
-        .attr("r", 5)
-        .attr("fill", "steelblue");
+  // Create a div for the tooltip
+  const tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
 
-    // Add x-axis
-    g.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", margin.bottom - 10)
-        .attr("fill", "white")
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text(x_ax_name);
+  // Add scatter points with hover effect
+  g.selectAll(".dot")
+    .data(data)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("cx", d => x(d.x))
+    .attr("cy", d => y(d.y))
+    .attr("r", 5)
+    .attr("fill", "steelblue")
+    .on("mouseover", (event, d) => {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+      tooltip.html(`Date: ${d.x.toLocaleString()}<br/>Value: ${d.y}`)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", () => {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+    });
 
-    // Add y-axis
-    g.append("g")
-        .call(d3.axisLeft(y))
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 10)
-        .attr("x", -height / 2)
-        .attr("dy", "0.71em")
-        .attr("fill", "white")
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text(y_ax_name);
+  // Add x-axis
+  g.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x))
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", margin.bottom - 10)
+    .attr("fill", "white")
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .text(x_ax_name);
 
-    // Add chart title
-    svg.append("text")
-        .attr("x", width / 2 + margin.left)
-        .attr("y", margin.top / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")  // Increased font size
-        .text(chart_name);
+  // Add y-axis
+  g.append("g")
+    .call(d3.axisLeft(y))
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left + 10)
+    .attr("x", -height / 2)
+    .attr("dy", "0.71em")
+    .attr("fill", "white")
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .text(y_ax_name);
+
+  // Add chart title
+  svg.append("text")
+    .attr("x", width / 2 + margin.left)
+    .attr("y", margin.top / 2)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")  // Increased font size
+    .text(chart_name);
 }
 
 async function fetchDataFromUrl(url) {
-    try {
-        console.log("Fetching data from URL:", url);
-        const response = await fetch('http://localhost:3000/api/fetch-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ url: url })
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.text();
-        console.log("Received data:", data.substring(0, 100) + "..."); // Log first 100 characters
-        return data;
-    } catch (error) {
-        console.error('There was a problem fetching the data:', error);
-        throw error; // Re-throw the error so it can be caught in getFormText
+  try {
+    console.log("Fetching data from URL:", url);
+    const response = await fetch('/api/fetch-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url: url })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
+    const data = await response.text();
+    console.log("Received data:", data.substring(0, 100) + "..."); // Log first 100 characters
+    return data;
+  } catch (error) {
+    console.error('There was a problem fetching the data:', error);
+    throw error; // Re-throw the error so it can be caught in getFormText
+  }
 }
 
 // Usage example:
@@ -429,6 +457,10 @@ async function getFormText(event) {
   const d3cont = document.getElementById("d3-container");
   d3cont.innerHTML = "";
   document.getElementById("result").innerText = "";
+  
+  // Hide the results container initially
+  document.querySelector('.results-container').style.display = 'none';
+
   var datetime_start = llmForm.elements.datetime_start.value; 
   var datetime_end = llmForm.elements.datetime_end.value;
   var data_types = Array.from(llmForm.elements.llm_select_datatype.selectedOptions).map(option => option.value);
@@ -503,6 +535,9 @@ async function getFormText(event) {
     // Display the analysis
     document.getElementById("result").innerText = parsedResult.analysis;
     
+    // Show the results container
+    document.querySelector('.results-container').style.display = 'block';
+
     // Store the original data and prompt
     originalData = formattedData;
     originalPrompt = llmForm.elements.prompt.value;
@@ -528,7 +563,7 @@ async function getFormText(event) {
 
       switch (graphType) {
         case 'line graph':
-          renderLineGraph(chart_name, parsedDatasets, x_ax_name, y_ax_name);
+          renderLineGraph(chart_name, parsedDatasets, x_ax_name, y_ax_name, data_types);
           break;
         case 'histogram':
           renderHistogram(chart_name, parsedDatasets, x_ax_name, y_ax_name);
@@ -544,9 +579,10 @@ async function getFormText(event) {
   } catch (error) {
     console.error('Error:', error);
     document.getElementById("result").innerText = "An error occurred: " + error.message;
+    // Show the results container even if there's an error
+    document.querySelector('.results-container').style.display = 'block';
   }
 }
-
 // Function to parse CSV data for multiple datasets
 function parseCSV(csvString, dataTypes) {
   try {
@@ -629,3 +665,16 @@ async function getAIResponse(userMessage) {
 
 // Make sure to use async/await when adding the event listener
 llmForm.addEventListener('submit', async (event) => await getFormText(event));
+
+function createTooltip() {
+  return d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("background-color", "rgba(0, 0, 0, 0.7)")
+    .style("color", "white")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("font-size", "14px")
+    .style("pointer-events", "none");
+}
