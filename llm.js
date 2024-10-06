@@ -8,13 +8,22 @@ const apiUrl = 'https://api.meteomatics.com/2024-10-04T11:00:00.000-04:00--2024-
 
 const llmForm = document.getElementById("llm-form");
 const llmPrompt11 = "I have a user prompt that is in plain text, they are a farmer and they want an analysis of their problem using data. The current data we have is in temperature, wind speed close to the ground, wind speed high up, humidity, cloud cover, uv index, and precipitation. Please pick which (can have multiple) data type(s) are most relevant to the user's prompt. You should return a list of data types, all in quotes, using the exact names as shown below. To be clear, a sample output would be: [\"Temperature\", \"Precipitation\"] put as many or as little in the list as you see fit. That is the only thing you should be outputting, with no extra whitespace. Your options are:\nTemperature\nPrecipitation\nWind Speed Close to the Ground\nWind Speed High Up\nHumidity\nCloud Cover\nUV Index\nThe user's prompt is: ";
-const llmPrompt21 = "I have csv data about" 
-const llmPrompt22 = "I have csv data about multiple weather parameters over a period of time. The data is formatted with headers for each data type, followed by the data in CSV format (timestamp,value). I also have three different functions that render different types of graphs for multiple datasets. I want you to take the csv data and the three functions and return the code that will render the type of graph you think is appropriate for comparing the data. The functions are called: renderLineGraph, renderHistogram, and renderScatterPlot. They all take in chart_name, datasets (an array of data arrays), x_ax_name, and y_ax_name. I also have the data in a variable called userData that you can reference. The only thing that should be in the data parameter is userData with no other variants. If the user doesnt specify that they dont want a graph, in the code section of your response I want the valid javascript code that you made for the function call. If the user specifies that they dont want a graph then just leave the code section blank. To be clear, default to making a graph. In the graph type section I want the name of the graph type you decided to use. In the analysis section of your response I want a full analysis referencing the graph that answers the user's question and compares the different datasets. \n The formatted data is: \n";
+const llmPrompt22 = "I have csv data about multiple weather parameters over a period of time. The data is formatted with headers for each data type, followed by the data in CSV format (timestamp,value). I also have three different functions that render different types of graphs for multiple datasets. I want you to take the csv data and the three functions and return the code that will render the type of graph you think is appropriate for comparing the data. The functions are called: renderLineGraph, renderHistogram, and renderScatterPlot. They all take in chart_name, datasets (an array of data arrays), x_ax_name, and y_ax_name. I also have the data in a variable called userData that you can reference. The only thing that should be in the data parameter is userData with no other variants. If the user doesnt specify that they dont want a graph, in the code section of your response I want the valid javascript code that you made for the function call. If the user specifies that they dont want a graph then just leave the code section blank. To be clear, default to making a graph. In the graph type section I want the name of the graph type you decided to use. In the analysis section of your response I want a full analysis referencing the graph that answers the user's question and compares the different datasets. Use only new lines for formatting, no other special formatting (no bold, italics, or asterisks). Provide a conclusive answer if possible. \n The formatted data is: \n";
 const llmPrompt23 = "\n The user's prompt is: \n"
 
 const llmTextarea = document.getElementById("llm-textarea");
 const datatypeLabel = document.getElementById("datatype-label");
 const llmSelectDatatype = document.getElementById("llm_select_datatype");
+
+const respondButton = document.getElementById("respond-button");
+const chatContainer = document.getElementById("chat-container");
+const chatMessages = document.getElementById("chat-messages");
+const userMessageInput = document.getElementById("user-message");
+const sendMessageButton = document.getElementById("send-message");
+
+let originalData = "";
+let originalPrompt = "";
+let previousAnalysis = "";
 
 async function recommendDataType(prompt) {
   if (!prompt.trim()) {
@@ -494,6 +503,16 @@ async function getFormText(event) {
     // Display the analysis
     document.getElementById("result").innerText = parsedResult.analysis;
     
+    // Store the original data and prompt
+    originalData = formattedData;
+    originalPrompt = llmForm.elements.prompt.value;
+
+    // Store the previous analysis
+    previousAnalysis = parsedResult.analysis;
+
+    // Show the respond button
+    respondButton.style.display = "block";
+
     // Check if the code section is not empty (user wants a graph)
     if (parsedResult.code && parsedResult.code.trim() !== "") {
       // Determine the graph type
@@ -551,6 +570,61 @@ function parseCSV(csvString, dataTypes) {
     console.error("Error parsing CSV:", error);
     return [];
   }
+}
+
+// Add event listener for the respond button
+respondButton.addEventListener("click", () => {
+  chatContainer.style.display = "block";
+  respondButton.style.display = "none";
+});
+
+// Add event listener for the send message button
+sendMessageButton.addEventListener("click", async () => {
+  const userMessage = userMessageInput.value.trim();
+  if (userMessage) {
+    addMessageToChat("User", userMessage);
+    userMessageInput.value = "";
+
+    try {
+      const aiResponse = await getAIResponse(userMessage);
+      addMessageToChat("AI", aiResponse);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      addMessageToChat("AI", "Sorry, I encountered an error while processing your request.");
+    }
+  }
+});
+
+function addMessageToChat(sender, message) {
+  const messageElement = document.createElement("p");
+  messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+  chatMessages.appendChild(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function getAIResponse(userMessage) {
+  const fullPrompt = `Original Data:\n${originalData}\n\nOriginal Prompt:\n${originalPrompt}\n\nPrevious Analysis:\n${previousAnalysis}\n\nNew User Message:\n${userMessage}\n\nPlease provide a response to the user's new message, taking into account the original data, prompt, and previous analysis. Use only new lines for formatting, no other special formatting (no bold, italics, or asterisks). Provide a conclusive answer if possible.`;
+
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      contents: [{
+        parts: [{
+          text: fullPrompt
+        }]
+      }]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const result = await response.json();
+  return result.candidates[0].content.parts[0].text;
 }
 
 // Make sure to use async/await when adding the event listener
