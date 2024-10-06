@@ -41,7 +41,7 @@
             <main class="container">
                 <form id="llm-form">
                     <label for="prompt">Enter your prompt:</label>
-                    <textarea id="llm-textarea" name="prompt" rows="4" cols="50" required></textarea>
+                    <textarea id="llm-textarea" name="prompt" rows="4" cols="50" required placeholder="Example: Analyze the temperature and precipitation data for the specified time period and location. Provide insights on how these weather conditions might affect crop growth and suggest any necessary adjustments to farming practices."></textarea>
 
                     <label for="llm_select_datatype" id="datatype-label">Select your data type...</label>
                     <select id="llm_select_datatype" name="llm_select_datatype" multiple required>
@@ -66,7 +66,7 @@
                     <label for="long">Longitude:</label>
                     <input type="number" id="long" name="long" step="any" required>
 
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Analyze">
                 </form>
                 <div id="d3-container"></div>
                 <p id="result"></p>
