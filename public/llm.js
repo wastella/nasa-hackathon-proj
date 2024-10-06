@@ -46,7 +46,7 @@ function hideLoadingAnimation() {
 
 async function recommendDataType(prompt) {
   if (!prompt.trim()) {
-    datatypeLabel.textContent = "Select your data type...";
+    datatypeLabel.textContent = "Reccomended: ";
     return;
   }
 
@@ -97,7 +97,7 @@ async function recommendDataType(prompt) {
 
   } catch (error) {
     console.error('Error:', error);
-    datatypeLabel.textContent = "Error recommending data type";
+    datatypeLabel.textContent = "Not Enough Information To Reccomend";
   }
 }
 
