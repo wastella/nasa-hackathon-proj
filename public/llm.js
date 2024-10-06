@@ -1,5 +1,13 @@
-// gemini api info LOOK INTO GOOGLE CLOUD API
-const API_KEY = 'AIzaSyBiBPDlmTw09OF5SbGubI8nW_lCr_j1B9M';
+let API_KEY;
+
+// Fetch the API key from the backend
+fetch('/api/config')
+  .then(response => response.json())
+  .then(config => {
+    API_KEY = config.API_KEY;
+    // Initialize your GoogleGenerativeAI here or anywhere else you need the API_KEY
+  })
+  .catch(error => console.error('Error fetching config:', error));
 
 // meteometics api info
 // User: nasaspacehackathon_stella_william
@@ -201,7 +209,7 @@ function renderLineGraph(chart_name, datasets, x_ax_name, y_ax_name, dataTypes) 
     .append("text")
     .attr("x", innerWidth / 2)
     .attr("y", margin.bottom - 10)
-    .attr("fill", "black")
+    .attr("fill", "white")
     .attr("text-anchor", "middle")
     .text(x_ax_name);
 
@@ -213,7 +221,7 @@ function renderLineGraph(chart_name, datasets, x_ax_name, y_ax_name, dataTypes) 
     .attr("y", -margin.left + 10)
     .attr("x", -innerHeight / 2)
     .attr("dy", "0.71em")
-    .attr("fill", "black")
+    .attr("fill", "white")
     .attr("text-anchor", "middle")
     .text(y_ax_name);
 
@@ -304,7 +312,7 @@ function renderHistogram(chart_name, data, x_ax_name, y_ax_name) {
     .append("text")
     .attr("x", width / 2)
     .attr("y", margin.bottom - 10)
-    .attr("fill", "black")
+    .attr("fill", "white")
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
     .text(x_ax_name);
@@ -317,7 +325,7 @@ function renderHistogram(chart_name, data, x_ax_name, y_ax_name) {
     .attr("y", -margin.left + 10)
     .attr("x", -height / 2)
     .attr("dy", "0.71em")
-    .attr("fill", "black")
+    .attr("fill", "white")
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
     .text(y_ax_name);

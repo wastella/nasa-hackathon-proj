@@ -3,18 +3,21 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const port = 4000;
 
 app.use(cors());
 app.use(express.json());  // for parsing application/json
 
 app.post('/api/fetch-data', async (req, res) => {
     const { url } = req.body;
-    const username = 'nasaspacehackathon_stella_william';
-    const password = '8fWk82EJEv';
+    const username = process.env.NASAUSER;
+    const password = process.env.NASAPASS;
 
     if (!url) {
         return res.status(400).send('URL is required');
+    }
+
+    if (!username || !password) {
+        return res.status(500).send('API credentials are not configured');
     }
 
     try {
@@ -32,7 +35,17 @@ app.post('/api/fetch-data', async (req, res) => {
     }
 });
 
-// Remove or comment out the app.listen() call
+app.get('/api/config', (req, res) => {
+    res.json({
+        API_KEY: process.env.API_KEY
+    });
+});
 
-// Add this line at the end of the file
+// Remove the app.listen() call for Vercel deployment
+// app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+
+// Export the Express app
 module.exports = app;
+
+
+
