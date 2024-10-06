@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="html">
+    <head>
+        <title>AgroEye - Use Cases</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="animations.css">
+        <script src="transitions.js"></script>
+        <script>
+            document.body.classList.add('transitioning');
+            window.addEventListener('DOMContentLoaded', (event) => {
+                setTimeout(() => {
+                    document.body.classList.remove('transitioning');
+                }, 50);
+            });
+        </script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="contrast"><strong>AgroEye</strong></a></li>
+                </ul>
+                <ul>
+                    <li><a href="llm.html" class="contrast"><strong>LLM</strong></a></li>
+                    <li><a href="about.html" class="contrast"><strong>About</strong></a></li>
+                    <li><a href="use-cases.html" class="contrast"><strong>Use Cases</strong></a></li>
+                    <li>
+                        <button id="theme-toggle" class="contrast">
+                            <span class="material-icons">light_mode</span>
+                            <span class="material-icons">dark_mode</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="page-transition">
+            <main class="container">
+                <h1>AgroEye Use Cases</h1>
+                
+                <section>
+                    <h2>Crop Yield Prediction</h2>
+                    <p>AgroEye leverages historical and current satellite data to forecast crop yields, helping farmers make informed decisions about planting and harvesting. By analyzing various factors such as weather patterns, soil conditions, and crop health indices, our system provides accurate yield predictions, enabling farmers to optimize their resources and plan their operations more effectively.</p>
+                </section>
+                
+                <section>
+                    <h2>Water Management</h2>
+                    <p>Our platform utilizes Earth observation data to assess soil moisture levels and optimize irrigation schedules, promoting water conservation in agriculture. By providing detailed insights into soil moisture content, evapotranspiration rates, and precipitation forecasts, AgroEye helps farmers implement precision irrigation techniques, reducing water waste and improving crop water use efficiency.</p>
+                </section>
+                
+                <section>
+                    <h2>Pest and Disease Detection</h2>
+                    <p>AgroEye employs multispectral imagery to identify early signs of crop stress, pests, or diseases, enabling timely interventions. Our advanced algorithms analyze spectral signatures of crops to detect anomalies that may indicate the presence of pests or diseases. This early warning system allows farmers to take preventive measures, minimizing crop damage and reducing the need for extensive pesticide use.</p>
+                </section>
+                
+                <section>
+                    <h2>Climate Change Adaptation</h2>
+                    <p>By analyzing long-term climate trends, AgroEye helps farmers adapt their practices to changing environmental conditions. Our platform provides insights into shifting weather patterns, temperature trends, and precipitation changes, enabling farmers to make informed decisions about crop selection, planting times, and long-term farm management strategies to ensure sustainable agricultural practices in the face of climate change.</p>
+                </section>
+                
+                <section>
+                    <h2>Precision Agriculture</h2>
+                    <p>AgroEye supports precision agriculture by providing high-resolution satellite imagery and data analytics. Farmers can use our platform to create detailed field maps, identify variations in soil properties, and implement variable rate applications of fertilizers and other inputs. This targeted approach optimizes resource use, reduces environmental impact, and improves overall farm productivity.</p>
+                </section>
+            </main>
+        </div>
+        <script src="theme.js"></script>
+    </body>
+</html>
