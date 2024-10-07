@@ -10,8 +10,6 @@ fetch('/api/config')
   .catch(error => console.error('Error fetching config:', error));
 
 // meteometics api info
-// User: nasaspacehackathon_stella_william
-// Password: 8fWk82EJEv
 const apiUrl = 'https://api.meteomatics.com/2024-10-04T11:00:00.000-04:00--2024-10-05T11:00:00.000-04:00:PT5M/t_0m:C/41.3897764,-81.4412259/csv?model=mix';
 
 const llmForm = document.getElementById("llm-form");
